@@ -1,0 +1,19 @@
+@startuml
+actor Caller
+entity "Enterprise" as Enterprise
+entity "Employee" as Employee
+entity "PaiementService" as PaiementService
+
+Caller -> Enterprise: payEmployeesForPeriod(weeksPerPeriod)
+activate Enterprise
+loop for each Employee
+    Enterprise -> Employee: payForPeriod(weeksPerPeriod)
+    activate Employee
+    activate PaiementService
+    Employee -> PaiementService: processPayment(amount)
+    deactivate PaiementService
+    deactivate Employee
+
+end
+deactivate Enterprise
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+
+actor User
+activate Enterprise
+
+User -> Enterprise : payEmployeesForPeriod(weeksPerPeriod)
+
+Enterprise -> Employee : getBankNumber()
+return bankNumber
+
+Enterprise -> Employee : getWeeklySalary()
+return weeklySalary
+
+Enterprise -> Enterprise : calculateSalaryOwed(weeksPerPeriod, weeklySalary)
+return amountOwed
+
+Enterprise -> PaiementService : makePayment(bankNumber, amountOwed)
+
+deactivate Enterprise
+
+@enduml

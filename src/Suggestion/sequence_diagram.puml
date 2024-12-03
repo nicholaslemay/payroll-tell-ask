@@ -1,0 +1,29 @@
+@startuml
+actor User
+entity "WeeklyPayUseCase" as WeeklyPayUseCase
+entity "Enterprise" as Enterprise
+
+
+User -> WeeklyPayUseCase: PayEnterpriseEmployees()
+activate WeeklyPayUseCase
+
+WeeklyPayUseCase -> WeeklyPayUseCase: GetEnterprise()
+activate Enterprise
+WeeklyPayUseCase -> Enterprise: getEmployeesPayForPeriod
+
+loop for each Employee
+    activate Employee
+    Enterprise -> Employee: payForPeriod(weeksPerPeriod)
+    Enterprise <- Employee: payForPeriod
+    deactivate Employee
+end
+
+WeeklyPayUseCase <- Enterprise: employeesPayForPeriod
+deactivate Enterprise
+activate PaiementService
+WeeklyPayUseCase -> PaiementService: processPayments(employeesPayForPeriod)
+deactivate "PaiementService"
+
+
+deactivate WeeklyPayUseCase
+@enduml
